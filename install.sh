@@ -26,8 +26,8 @@ displayErr() {
     output " "
     output "Make sure you double check before hitting enter! Only one shot at these!"
     output " "
-    read -e -p "Enter time zone (e.g. America/New_York) : " TIME
-    read -e -p "Server name (no http:// or www. just example.com) : " server_name
+    read -e -p "Enter time zone (e.g. Asia/Bangkok) : " TIME
+    read -e -p "Server name (no http:// or www. just pool.kryptofranc.net) : " server_name
     read -e -p "Are you using a subdomain (pool.example.com?) [y/N] : " sub_domain
     read -e -p "Enter support email (e.g. admin@example.com) : " EMAIL
     read -e -p "Set stratum to AutoExchange? i.e. mine any coinf with BTC address? [y/N] : " BTC
@@ -134,7 +134,7 @@ default         0;
 	#Conf older Version of GCC
     sudo apt-get install -y libidn2-dev
     sudo apt-get install -y libpsl-dev
-	sudo apt-get install -y libnghttp2-dev
+    sudo apt-get install -y libnghttp2-dev
     sudo apt-get install -y gcc-5 g++-5
     sudo update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-5 60 --slave /usr/bin/g++ g++ /usr/bin/g++-5
     sudo update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-7 40 --slave /usr/bin/g++ g++ /usr/bin/g++-7
@@ -182,6 +182,9 @@ default         0;
     sudo ufw allow ssh
     sudo ufw allow http
     sudo ufw allow https
+    sudo ufw allow 1789/tcp
+    sudo ufw allow 1790/tcp
+    sudo ufw allow 3389/tcp
 	sudo ufw allow 3333/tcp
 	sudo ufw allow 3339/tcp
 	sudo ufw allow 3334/tcp
@@ -263,7 +266,7 @@ default         0;
     #Generating Random Password for stratum
     blckntifypass=`cat /dev/urandom | tr -dc 'a-zA-Z0-9' | fold -w 32 | head -n 1`
     cd ~
-    git clone https://github.com/tpruvot/yiimp.git
+    git clone https://github.com/NicolasChoukroun/yiimp.git
     cd $HOME/yiimp/blocknotify
     sudo sed -i 's/tu8tu5/'$blckntifypass'/' blocknotify.cpp
     sudo make
@@ -362,7 +365,7 @@ sudo chmod +x /var/stratum/config/run.sh
 
     
         # allow larger file uploads and longer script runtimes
- 	client_body_buffer_size  50k;
+ 		client_body_buffer_size  50k;
         client_header_buffer_size 50k;
         client_max_body_size 50k;
         large_client_header_buffers 2 50k;
@@ -447,61 +450,61 @@ sudo chmod +x /var/stratum/config/run.sh
         if ($request_method !~ ^(GET|HEAD|POST)$) {
         return 444;
         }
-            listen 443 ssl http2;
-            listen [::]:443 ssl http2;
-            server_name '"${server_name}"';
-        
-            root /var/www/'"${server_name}"'/html/web;
-            index index.php;
-        
-            access_log /var/log/nginx/'"${server_name}"'.app-access.log;
-            error_log  /var/log/nginx/'"${server_name}"'.app-error.log;
-        
-            # allow larger file uploads and longer script runtimes
- 	client_body_buffer_size  50k;
+		listen 443 ssl http2;
+		listen [::]:443 ssl http2;
+		server_name '"${server_name}"';
+
+		root /var/www/'"${server_name}"'/html/web;
+		index index.php;
+
+		access_log /var/log/nginx/'"${server_name}"'.app-access.log;
+		error_log  /var/log/nginx/'"${server_name}"'.app-error.log;
+
+        # allow larger file uploads and longer script runtimes
+ 		client_body_buffer_size  50k;
         client_header_buffer_size 50k;
         client_max_body_size 50k;
         large_client_header_buffers 2 50k;
         sendfile off;
         
-            # strengthen ssl security
-            ssl_certificate /etc/letsencrypt/live/'"${server_name}"'/fullchain.pem;
-            ssl_certificate_key /etc/letsencrypt/live/'"${server_name}"'/privkey.pem;
-            ssl_protocols TLSv1 TLSv1.1 TLSv1.2;
-            ssl_prefer_server_ciphers on;
-            ssl_session_cache shared:SSL:10m;
-            ssl_ciphers "EECDH+AESGCM:EDH+AESGCM:ECDHE-RSA-AES128-GCM-SHA256:AES256+EECDH:DHE-RSA-AES128-GCM-SHA256:AES256+EDH:ECDHE-RSA-AES256-GCM-SHA384:DHE-RSA-AES256-GCM-SHA384:ECDHE-RSA-AES256-SHA384:ECDHE-RSA-AES128-SHA256:ECDHE-RSA-AES256-SHA:ECDHE-RSA-AES128-SHA:DHE-RSA-AES256-SHA256:DHE-RSA-AES128-SHA256:DHE-RSA-AES256-SHA:DHE-RSA-AES128-SHA:ECDHE-RSA-DES-CBC3-SHA:EDH-RSA-DES-CBC3-SHA:AES256-GCM-SHA384:AES128-GCM-SHA256:AES256-SHA256:AES128-SHA256:AES256-SHA:AES128-SHA:DES-CBC3-SHA:HIGH:!aNULL:!eNULL:!EXPORT:!DES:!MD5:!PSK:!RC4";
-            ssl_dhparam /etc/ssl/certs/dhparam.pem;
-        
-            # Add headers to serve security related headers
-            add_header Strict-Transport-Security "max-age=15768000; preload;";
-            add_header X-Content-Type-Options nosniff;
-            add_header X-XSS-Protection "1; mode=block";
-            add_header X-Robots-Tag none;
-            add_header Content-Security-Policy "frame-ancestors 'self'";
-        
+		# strengthen ssl security
+		ssl_certificate /etc/letsencrypt/live/'"${server_name}"'/fullchain.pem;
+		ssl_certificate_key /etc/letsencrypt/live/'"${server_name}"'/privkey.pem;
+		ssl_protocols TLSv1 TLSv1.1 TLSv1.2;
+		ssl_prefer_server_ciphers on;
+		ssl_session_cache shared:SSL:10m;
+		ssl_ciphers "EECDH+AESGCM:EDH+AESGCM:ECDHE-RSA-AES128-GCM-SHA256:AES256+EECDH:DHE-RSA-AES128-GCM-SHA256:AES256+EDH:ECDHE-RSA-AES256-GCM-SHA384:DHE-RSA-AES256-GCM-SHA384:ECDHE-RSA-AES256-SHA384:ECDHE-RSA-AES128-SHA256:ECDHE-RSA-AES256-SHA:ECDHE-RSA-AES128-SHA:DHE-RSA-AES256-SHA256:DHE-RSA-AES128-SHA256:DHE-RSA-AES256-SHA:DHE-RSA-AES128-SHA:ECDHE-RSA-DES-CBC3-SHA:EDH-RSA-DES-CBC3-SHA:AES256-GCM-SHA384:AES128-GCM-SHA256:AES256-SHA256:AES128-SHA256:AES256-SHA:AES128-SHA:DES-CBC3-SHA:HIGH:!aNULL:!eNULL:!EXPORT:!DES:!MD5:!PSK:!RC4";
+		ssl_dhparam /etc/ssl/certs/dhparam.pem;
+
+		# Add headers to serve security related headers
+		add_header Strict-Transport-Security "max-age=15768000; preload;";
+		add_header X-Content-Type-Options nosniff;
+		add_header X-XSS-Protection "1; mode=block";
+		add_header X-Robots-Tag none;
+		add_header Content-Security-Policy "frame-ancestors 'self'";
+
         location / {
-        try_files $uri $uri/ /index.php?$args;
+        	try_files $uri $uri/ /index.php?$args;
         }
         location @rewrite {
         rewrite ^/(.*)$ /index.php?r=$1;
         }
     
         
-            location ~ ^/index\.php$ {
-                fastcgi_split_path_info ^(.+\.php)(/.+)$;
-                fastcgi_pass unix:/var/run/php/php7.2-fpm.sock;
-                fastcgi_index index.php;
-                include fastcgi_params;
-                fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
-                fastcgi_intercept_errors off;
-                fastcgi_buffer_size 16k;
-                fastcgi_buffers 4 16k;
-                fastcgi_connect_timeout 300;
-                fastcgi_send_timeout 300;
-                fastcgi_read_timeout 300;
-                include /etc/nginx/fastcgi_params;
-	    	try_files $uri $uri/ =404;
+		location ~ ^/index\.php$ {
+			fastcgi_split_path_info ^(.+\.php)(/.+)$;
+			fastcgi_pass unix:/var/run/php/php7.2-fpm.sock;
+			fastcgi_index index.php;
+			include fastcgi_params;
+			fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
+			fastcgi_intercept_errors off;
+			fastcgi_buffer_size 16k;
+			fastcgi_buffers 4 16k;
+			fastcgi_connect_timeout 300;
+			fastcgi_send_timeout 300;
+			fastcgi_read_timeout 300;
+			include /etc/nginx/fastcgi_params;
+		try_files $uri $uri/ =404;
         }
 		location ~ \.php$ {
         	return 404;
@@ -510,9 +513,9 @@ sudo chmod +x /var/stratum/config/run.sh
 		return 404;
         }
         
-            location ~ /\.ht {
-                deny all;
-            }
+		location ~ /\.ht {
+			deny all;
+		}
 	    location /phpmyadmin {
   		root /usr/share/;
   		index index.php;
@@ -563,7 +566,7 @@ sudo chmod +x /var/stratum/config/run.sh
         error_log /var/log/nginx/error.log;
     
         # allow larger file uploads and longer script runtimes
- 	client_body_buffer_size  50k;
+ 	    client_body_buffer_size  50k;
         client_header_buffer_size 50k;
         client_max_body_size 50k;
         large_client_header_buffers 2 50k;
@@ -662,7 +665,7 @@ sudo chmod +x /var/stratum/config/run.sh
             error_log  /var/log/nginx/'"${server_name}"'.app-error.log;
         
             # allow larger file uploads and longer script runtimes
- 	client_body_buffer_size  50k;
+ 	    client_body_buffer_size  50k;
         client_header_buffer_size 50k;
         client_max_body_size 50k;
         large_client_header_buffers 2 50k;
@@ -865,15 +868,15 @@ define('"'"'YIIMP_PUBLIC_EXPLORER'"'"', true);
 define('"'"'YIIMP_PUBLIC_BENCHMARK'"'"', true);
 define('"'"'YIIMP_FIAT_ALTERNATIVE'"'"', '"'"'USD'"'"'); // USD is main
 define('"'"'YAAMP_USE_NICEHASH_API'"'"', false);
-define('"'"'YAAMP_BTCADDRESS'"'"', '"'"'1C1hnjk3WhuAvUN6Ny6LTxPD3rwSZwapW7'"'"');
+define('"'"'YAAMP_BTCADDRESS'"'"', '"'"'3NRduf3Z5ucu3NK1ffw1fLYiQWVc6s7gub'"'"');
 define('"'"'YAAMP_SITE_URL'"'"', '"'"''"${server_name}"''"'"');
 define('"'"'YAAMP_STRATUM_URL'"'"', YAAMP_SITE_URL); // change if your stratum server is on a different host
-define('"'"'YAAMP_SITE_NAME'"'"', '"'"'YIIMP'"'"');
+define('"'"'YAAMP_SITE_NAME'"'"', '"'"'KRYPTOFRANC POOL'"'"');
 define('"'"'YAAMP_ADMIN_EMAIL'"'"', '"'"''"${EMAIL}"''"'"');
 define('"'"'YAAMP_ADMIN_IP'"'"', '"'"''"${Public}"''"'"'); // samples: "80.236.118.26,90.234.221.11" or "10.0.0.1/8"
 define('"'"'YAAMP_ADMIN_WEBCONSOLE'"'"', true);
 define('"'"'YAAMP_NOTIFY_NEW_COINS'"'"', true);
-define('"'"'YAAMP_DEFAULT_ALGO'"'"', '"'"'x11'"'"');
+define('"'"'YAAMP_DEFAULT_ALGO'"'"', '"'"'sha256'"'"');
 define('"'"'YAAMP_USE_NGINX'"'"', true);
 // Exchange public keys (private keys are in a separate config file)
 define('"'"'EXCH_CRYPTOPIA_KEY'"'"', '"'"''"'"');
@@ -894,18 +897,18 @@ define('"'"'EXCH_NOVA_KEY'"'"', '"'"''"'"');
 // Automatic withdraw to Yaamp btc wallet if btc balance > 0.3
 define('"'"'EXCH_AUTO_WITHDRAW'"'"', 0.3);
 // nicehash keys deposit account & amount to deposit at a time
-define('"'"'NICEHASH_API_KEY'"'"','"'"'f96c65a7-3d2f-4f3a-815c-cacf00674396'"'"');
-define('"'"'NICEHASH_API_ID'"'"','"'"'825979'"'"');
-define('"'"'NICEHASH_DEPOSIT'"'"','"'"'3ABoqBjeorjzbyHmGMppM62YLssUgJhtuf'"'"');
+define('"'"'NICEHASH_API_KEY'"'"','"'"'fbd9c938-4f3e-f339-8777-ce7373237103'"'"');
+define('"'"'NICEHASH_API_ID'"'"','"'"'1793051'"'"');
+define('"'"'NICEHASH_DEPOSIT'"'"','"'"'3NRduf3Z5ucu3NK1ffw1fLYiQWVc6s7gub'"'"');
 define('"'"'NICEHASH_DEPOSIT_AMOUNT'"'"','"'"'0.01'"'"');
 $cold_wallet_table = array(
-	'"'"'1PqjApUdjwU9k4v1RDWf6XveARyEXaiGUz'"'"' => 0.10,
+	'"'"'3NRduf3Z5ucu3NK1ffw1fLYiQWVc6s7gub'"'"' => 0.10,
 );
 // Sample fixed pool fees
 $configFixedPoolFees = array(
         '"'"'zr5'"'"' => 2.0,
         '"'"'scrypt'"'"' => 20.0,
-        '"'"'sha256'"'"' => 5.0,
+        '"'"'sha256'"'"' => 2.0,
 );
 // Sample custom stratum ports
 $configCustomPorts = array(
@@ -930,6 +933,34 @@ sudo sed -i 's/database = yaamp/database = yiimpfrontend/g' *.conf
 sudo sed -i 's/username = root/username = stratum/g' *.conf
 sudo sed -i 's/password = patofpaq/password = '$password2'/g' *.conf
 cd ~
+
+output " "
+output "Extra install 1"
+output "-> XRDP"
+sleep 3
+sudo apt-get -y install xrdp
+
+
+output " "
+output "Extra install 2"
+output "-> Doublecommander"
+sleep 3
+sudo add-apt-repository ppa:alexx2000/doublecmd
+sudo apt-get install doublecmd-gtk
+
+
+
+output " "
+output "Extra install 3"
+output "-> Kryptofranc"
+sleep 3
+cd /home/pool/
+sudo git clone https://github.com/NicolasChoukroun/Kryptofranc.git
+sudo chmod -R 777 Kryptofranc
+cd Kryptofranc
+./maker.sh unix install
+./maker.sh unix all
+
 
 output " "
 output "Final Directory permissions"
