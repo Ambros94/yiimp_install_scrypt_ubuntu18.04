@@ -936,6 +936,13 @@ sudo sed -i 's/password = patofpaq/password = '$password2'/g' *.conf
 cd ~
 
 output " "
+output "Extra install 0"
+output "-> MATE"
+sleep 3
+sudo apt install -y ubuntu-mate-desktop
+
+
+output " "
 output "Extra install 1"
 output "-> XRDP"
 sleep 3
