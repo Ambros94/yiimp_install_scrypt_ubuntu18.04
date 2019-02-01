@@ -1,6 +1,6 @@
 # Yiimp_install_scrypt_ubuntu18.10 (update Feb, 2019)
 
-Adapted for Kryptofranc support
+# Adapted for Kryptofranc support
 
 Discord : https://discord.gg/zcCXjkQ
 
