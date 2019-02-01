@@ -62,7 +62,11 @@ Go http://xxx.xxxxxx.xxx or https://xxx.xxxxxx.xxx (if you have chosen LetsEncry
 - Your Public IP for admin access (Put your PERSONNAL IP, NOT IP of your VPS)
 - Install Fail2ban
 - Install UFW and configure ports
-- Install LetsEncrypt SSL
+- (removed) Install LetsEncrypt SSL
+- Install Ubuntu mate
+- Install XRDP
+- Install Double Commander
+- Install Kryptofran and compile it for Unix (result in /Krytofranc/binaries/)
 
 ***********************************
 
