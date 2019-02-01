@@ -2,11 +2,12 @@
 ################################################################################
 # Original Author:   crombiecrunch
 # Fork Author: manfromafar
-# Current Author: Xavatar
+# Fork 2 Author: Xavatar
+# Current Author Nicolas Choukroun
 # Web:     
 #
 # Program:
-#   Install yiimp on Ubuntu 17.10 running Nginx, MariaDB, and php7.1.x
+#   Install yiimp on Ubuntu 18.04 running Nginx, MariaDB, php7.1.x, XRDP, Kryptofranc
 # 
 # 
 ################################################################################
@@ -35,7 +36,7 @@ displayErr() {
     read -e -p "Enter your Public IP for admin access (http://www.whatsmyip.org/) : " Public
     read -e -p "Install Fail2ban? [Y/n] : " install_fail2ban
     read -e -p "Install UFW and configure ports? [Y/n] : " UFW
-    read -e -p "Install LetsEncrypt SSL? IMPORTANT! You MUST have your domain name pointed to this server prior to running the script!! [y/N]: " ssl_install
+    # read -e -p "Install LetsEncrypt SSL? IMPORTANT! You MUST have your domain name pointed to this server prior to running the script!! [y/N]: " ssl_install
     
     output " "
     output "Updating system and installing required packages."
@@ -181,7 +182,7 @@ default         0;
     sudo ufw default allow outgoing
     sudo ufw allow ssh
     sudo ufw allow http
-    sudo ufw allow https
+    #sudo ufw allow https
     sudo ufw allow 1789/tcp
     sudo ufw allow 1790/tcp
     sudo ufw allow 3389/tcp
