@@ -1,7 +1,7 @@
 #!/bin/bash
  STRATUM_DIR=/var/stratum
  
- screen -dmS gsha256 $STRATUM_DIR/run.sh sha
+ screen -dmS sha256 $STRATUM_DIR/run.sh sha
  screen -dmS kyfd "/home/pool/Kryptofranc/binaries/unix/kyfd -debug -deprecatedrpc=accounts"
  
  #screen -dmS keccak $STRATUM_DIR/run.sh keccak
