@@ -45,28 +45,28 @@ displayErr() {
     
     
     # update package and upgrade Ubuntu
-    sudo apt-get -y update 
-    sudo apt-get -y upgrade
-    sudo apt-get -y autoremove
+    apt-get -y update 
+    apt-get -y upgrade
+    apt-get -y autoremove
     
     output " "
     output "Switching to Aptitude"
     output " "
     sleep 3
     
-    sudo apt-get -y install aptitude
+    apt-get -y install aptitude
     
     output " "
     output "Installing Nginx server."
     output " "
     sleep 3
     
-    sudo aptitude -y install nginx
-    sudo rm /etc/nginx/sites-enabled/default
-    sudo systemctl start nginx.service
-    sudo systemctl enable nginx.service
-    sudo systemctl start cron.service
-    sudo systemctl enable cron.service
+    aptitude -y install nginx
+    rm /etc/nginx/sites-enabled/default
+    systemctl start nginx.service
+    systemctl enable nginx.service
+    systemctl start cron.service
+    systemctl enable cron.service
 	
 
     #Making Nginx a bit hard
@@ -78,7 +78,7 @@ default         0;
 ~*crawler       1;
 ~*bandit        1;
 }
-' | sudo -E tee /etc/nginx/blockuseragents.rules >/dev/null 2>&1
+' | -E tee /etc/nginx/blockuseragents.rules >/dev/null 2>&1
     
     output " "
     output "Installing Mariadb Server."
@@ -89,32 +89,32 @@ default         0;
     # create random password
     rootpasswd=$(openssl rand -base64 12)
     export DEBIAN_FRONTEND="noninteractive"
-    sudo aptitude -y install mariadb-server
-    sudo systemctl start mariadb.service
-    sudo systemctl enable mariadb.service
+    aptitude -y install mariadb-server
+    systemctl start mariadb.service
+    systemctl enable mariadb.service
 	
     output " "
     output "Installing php7.x and other needed files"
     output " "
     sleep 3
     
-    sudo aptitude -y install php-fpm
-    sudo aptitude -y install php-opcache php php-common php-gd php-mysql php-imap php-cli php-cgi php-pear mcrypt imagemagick libruby php-curl php-intl php-pspell php-recode php-sqlite3 php-tidy php-xmlrpc php-xsl memcached php-memcache php-imagick php-gettext php-zip php-mbstring
+    aptitude -y install php-fpm
+    aptitude -y install php-opcache php php-common php-gd php-mysql php-imap php-cli php-cgi php-pear mcrypt imagemagick libruby php-curl php-intl php-pspell php-recode php-sqlite3 php-tidy php-xmlrpc php-xsl memcached php-memcache php-imagick php-gettext php-zip php-mbstring
 	# dont find  (see later) : php-mcrypt ; php-auth
-    sudo phpenmod mcrypt
-    sudo phpenmod mbstring
-    sudo aptitude -y install libgmp3-dev
-    sudo aptitude -y install libmysqlclient-dev
-    sudo aptitude -y install libcurl4-gnutls-dev
-    sudo aptitude -y install libkrb5-dev
-    sudo aptitude -y install libldap2-dev
-    sudo aptitude -y install libidn11-dev
-    sudo aptitude -y install gnutls-dev
-    sudo aptitude -y install librtmp-dev
-    sudo aptitude -y install sendmail
-    sudo aptitude -y install mutt
-    sudo aptitude -y install git screen
-    sudo aptitude -y install pwgen -y
+    phpenmod mcrypt
+    phpenmod mbstring
+    aptitude -y install libgmp3-dev
+    aptitude -y install libmysqlclient-dev
+    aptitude -y install libcurl4-gnutls-dev
+    aptitude -y install libkrb5-dev
+    aptitude -y install libldap2-dev
+    aptitude -y install libidn11-dev
+    aptitude -y install gnutls-dev
+    aptitude -y install librtmp-dev
+    aptitude -y install sendmail
+    aptitude -y install mutt
+    aptitude -y install git screen
+    aptitude -y install pwgen -y
 
 
     #Installing Package to compile crypto currency
@@ -123,22 +123,22 @@ default         0;
     output " "
     sleep 3
     
-    sudo aptitude -y install software-properties-common build-essential
-    sudo aptitude -y install libtool autotools-dev automake pkg-config libssl-dev libevent-dev bsdmainutils git cmake libboost-all-dev zlib1g-dev libz-dev libseccomp-dev libcap-dev libminiupnpc-dev
-    sudo aptitude -y install libminiupnpc10 libzmq5
-    sudo aptitude -y install libcanberra-gtk-module libqrencode-dev libzmq3-dev
-    sudo aptitude -y install libqt5gui5 libqt5core5a libqt5webkit5-dev libqt5dbus5 qttools5-dev qttools5-dev-tools libprotobuf-dev protobuf-compiler
-    sudo add-apt-repository -y ppa:bitcoin/bitcoin
-    sudo apt-get -y update
-    sudo apt-get install -y libdb4.8-dev libdb4.8++-dev libdb5.3 libdb5.3++
+    aptitude -y install software-properties-common build-essential
+    aptitude -y install libtool autotools-dev automake pkg-config libssl-dev libevent-dev bsdmainutils git cmake libboost-all-dev zlib1g-dev libz-dev libseccomp-dev libcap-dev libminiupnpc-dev
+    aptitude -y install libminiupnpc10 libzmq5
+    aptitude -y install libcanberra-gtk-module libqrencode-dev libzmq3-dev
+    aptitude -y install libqt5gui5 libqt5core5a libqt5webkit5-dev libqt5dbus5 qttools5-dev qttools5-dev-tools libprotobuf-dev protobuf-compiler
+    add-apt-repository -y ppa:bitcoin/bitcoin
+    apt-get -y update
+    apt-get install -y libdb4.8-dev libdb4.8++-dev libdb5.3 libdb5.3++
 	
 	#Conf older Version of GCC
-    sudo apt-get install -y libidn2-dev
-    sudo apt-get install -y libpsl-dev
-    sudo apt-get install -y libnghttp2-dev
-    sudo apt-get install -y gcc-5 g++-5
-    sudo update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-5 60 --slave /usr/bin/g++ g++ /usr/bin/g++-5
-    sudo update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-7 40 --slave /usr/bin/g++ g++ /usr/bin/g++-7
+    apt-get install -y libidn2-dev
+    apt-get install -y libpsl-dev
+    apt-get install -y libnghttp2-dev
+    apt-get install -y gcc-5 g++-5
+    update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-5 60 --slave /usr/bin/g++ g++ /usr/bin/g++-5
+    update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-7 40 --slave /usr/bin/g++ g++ /usr/bin/g++-7
        
     
     #Generating Random Passwords
