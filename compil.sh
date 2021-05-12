@@ -23,7 +23,7 @@ displayErr() {
 cd ~
 
 if [[ ! -e 'CoinBuilds' ]]; then
-        sudo mkdir CoinBuilds
+        mkdir CoinBuilds
 elif [[ ! -d 'CoinBuilds' ]]; then
     output "Coinbuilds already exists.... Skipping" 1>&2
 fi
@@ -36,7 +36,7 @@ output ""
     read -e -p "Paste the github link for the coin : " git_hub
 
 if [[ ! -e '$coin' ]]; then
-    sudo  git clone $git_hub  $coin
+    git clone $git_hub  $coin
 elif [[ ! -d ~$CoinBuilds/$coin ]]; then
     output "Coinbuilds/$coin already exists.... Skipping" 1>&2
     output "Can not continue"
@@ -51,15 +51,15 @@ if [ -f autogen.sh ]; then
 		output " "
 		output "Starting ./autogen.sh"
 		output " "
-		sudo ./autogen.sh
+		./autogen.sh
 		output " "
 		output "Starting ./configure"
 		output " "
-        sudo ./configure
+        ./configure
 		output " "
 		output "Starting make"
 		output " "
-        sudo make
+        make
 		output " "
         output "$coin_name finished and can be found in CoinBuilds/$coin/src/ Make sure you sudo strip Coind and coin-cli if it exists, copy to /usr/bin"
 		output " "
@@ -69,7 +69,7 @@ if [[ ! -e 'obj' ]]; then
 	output " "
 	output "Creation directory obj"
 	output " "
-	sudo mkdir obj
+	mkdir obj
 elif [[ ! -d 'obj' ]]; then
     output "Hey the developer did his job" 1>&2
 fi
@@ -79,16 +79,16 @@ if [ -d 'leveldb' ]; then
 	output "Compilation libleveldb.a libmemenv.a"
 	output " "
 	cd leveldb
-	sudo chmod +x build_detect_platform
-	sudo make clean
-	sudo make libleveldb.a libmemenv.a
+	chmod +x build_detect_platform
+	make clean
+	make libleveldb.a libmemenv.a
 	cd ..
 fi
 output " "
 output "SRC Compilation Starting "
 output " "
-sudo make -f makefile.unix
+make -f makefile.unix
 output " "
-output "$coin finished and can be found in CoinBuilds/$coin/src/ Make sure you sudo strip Coind and coin-cli if it exists, copy to /usr/bin"
+output "$coin finished and can be found in CoinBuilds/$coin/src/ Make sure you strip Coind and coin-cli if it exists, copy to /usr/bin"
 output " "
 fi
